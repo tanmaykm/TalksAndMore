@@ -8,8 +8,7 @@
     }
    },
    "source": [
-    "#Protocol Buffers - Julia interfaces for complex systems\n",
-    "_Tanmay Mohapatra (@tanmaykm)_"
+    "#Protocol Buffers - Interfacing Julia with complex systems"
    ]
   },
   {
@@ -25,9 +24,9 @@
     "- Multiple components\n",
     "    - interaction among components\n",
     "    - independent development/deployment cycles\n",
-    "- Interfaces with other applications\n",
+    "- Interfaces to other applications\n",
     "- Heterogeneous environments\n",
-    "- Highly available"
+    "- High availability"
    ]
   },
   {
@@ -76,12 +75,11 @@
     "- A data exchange (serialization) format\n",
     "- Open-sourced by Google. (https://developers.google.com/protocol-buffers/)\n",
     "\n",
+    "Think XML, but smaller, faster, and simpler.\n",
     "\n",
     "- Structured & Extensible\n",
     "- Language / Platform Neutral\n",
-    "- Compact\n",
-    "\n",
-    "Think XML, but smaller, faster, and simpler."
+    "- Compact"
    ]
   },
   {
@@ -92,18 +90,19 @@
     }
    },
    "source": [
-    "## Who uses Protocol Buffers:\n",
+    "## Who uses ProtoBuf:\n",
     "- Used internally at Google\n",
     "- Much of the Hadoop ecosystem:\n",
     "    - HDFS & Yarn\n",
     "    - HBase\n",
     "    - Parquet\n",
-    "- Search reveals many others use it for:\n",
+    "- Search reveals many others\n",
+    "- Used for both:\n",
     "    - data transmission\n",
-    "    - data storage\n",
+    "    - storage format\n",
     "\n",
     "\n",
-    "## Julia packages using Protocol Buffers:\n",
+    "## Julia apps using ProtoBuf:\n",
     "- Elly.jl (https://github.com/JuliaParallel/Elly.jl) - a HDFS and Yarn interface"
    ]
   },
@@ -126,7 +125,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 44,
+   "execution_count": 17,
    "metadata": {
     "collapsed": true
    },
@@ -146,8 +145,8 @@
     "# Exploring - Message Structure\n",
     "- Message is a set of fields\n",
     "    - Typed (determines wire format)\n",
-    "    - Tagged (indicates sequence)\n",
-    "    - Have rules (required/optional/repeated/defaults)\n",
+    "    - Tagged (indicates sequence, presence)\n",
+    "    - Have rules (required/optional/repeated/packed/defaults)\n",
     "\n",
     "Allows validation of:\n",
     "- field data types\n",
@@ -156,7 +155,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 45,
+   "execution_count": 18,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -187,6 +186,50 @@
    ]
   },
   {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "collapsed": false,
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=================================\n",
+      "Field Type           Julia Type\n",
+      "=================================\n",
+      "      enum                Int32\n",
+      "    uint64               Uint64\n",
+      "   fixed64               Uint64\n",
+      "    sint32                Int32\n",
+      "       obj                  Any\n",
+      "    string               String\n",
+      "    sint64                Int64\n",
+      "     int64                Int64\n",
+      "  sfixed64                Int64\n",
+      "  sfixed32                Int32\n",
+      "      bool                 Bool\n",
+      "    uint32               Uint32\n",
+      "   fixed32               Uint32\n",
+      "     bytes       Array{Uint8,1}\n",
+      "     int32                Int32\n",
+      "    double              Float64\n",
+      "     float              Float32\n"
+     ]
+    }
+   ],
+   "source": [
+    "@printf(\"%s\\n%10s %20s\\n%s\\n\", \"=\"^33, \"Field Type\", \"Julia Type\", \"=\"^33)\n",
+    "for (k,v) in ProtoBuf.WIRETYPES\n",
+    "    @printf(\"%10s %20s\\n\", k, v[4])\n",
+    "end"
+   ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {
     "slideshow": {
@@ -197,12 +240,13 @@
     "#Exploring - Language &amp; Platform Neutrality\n",
     "\n",
     "- Java, Python, C++ supported by default\n",
-    "- [Add-ons](https://github.com/google/protobuf/wiki/Third-Party-Add-ons) for about 30 other languages (including Julia)"
+    "- Many others (including Julia) through [3rd party add-ons](https://github.com/google/protobuf/wiki/Third-Party-Add-ons)\n",
+    "- Add-ons for about 30 different languages"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 46,
+   "execution_count": 19,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -219,7 +263,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
+   "execution_count": 20,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -263,7 +307,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
+   "execution_count": 21,
    "metadata": {
     "collapsed": true,
     "slideshow": {
@@ -290,7 +334,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 47,
+   "execution_count": 22,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -304,7 +348,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 48,
+   "execution_count": 23,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -340,7 +384,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 49,
+   "execution_count": 24,
    "metadata": {
     "collapsed": true,
     "slideshow": {
@@ -360,7 +404,6 @@
     "message Portfolio{               // A portfolio can have...\n",
     "    repeated Quote quote = 1;    // a list of quotes\n",
     "    required int64 count = 2;    // number of quotes <<== changed int32 to int64\n",
-    "    optional int64 client_id = 3;\n",
     "}\n",
     "\"\"\"\n",
     "\n",
@@ -373,7 +416,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 50,
+   "execution_count": 25,
    "metadata": {
     "collapsed": true,
     "slideshow": {
@@ -400,7 +443,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 51,
+   "execution_count": 26,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -414,7 +457,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 52,
+   "execution_count": 27,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -426,7 +469,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "stocks2.Portfolio([stocks2.Quote(\"GOOG\",400.0),stocks2.Quote(\"FB\",80.0)],2,0)\n"
+      "stocks2.Portfolio([stocks2.Quote(\"GOOG\",400.0),stocks2.Quote(\"FB\",80.0)],2)\n"
      ]
     }
    ],
@@ -450,7 +493,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 53,
+   "execution_count": 28,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -485,7 +528,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 54,
+   "execution_count": 29,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -510,12 +553,19 @@
     "    iob = PipeBuffer()\n",
     "    JSON.print(iob, t)\n",
     "    iob.size\n",
+    "end\n",
+    "\n",
+    "function jld_ser(t::TestType)\n",
+    "    jldopen(\"/tmp/t.jld\", \"w\") do file\n",
+    "        write(file, \"T\", t)\n",
+    "    end\n",
+    "    filesize(\"/tmp/t.jld\")\n",
     "end;"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 55,
+   "execution_count": 30,
    "metadata": {
     "collapsed": false,
     "slideshow": {
@@ -531,8 +581,9 @@
       "         Method      Serialized Size\n",
       "===========================================\n",
       "       ProtoBuf                 1835\n",
-      "          Julia                 2163\n",
-      "           JSON                 3247\n"
+      "          Julia                 2161\n",
+      "           JSON                 3245\n",
+      "            JLD                32792\n"
      ]
     }
    ],
@@ -554,7 +605,8 @@
     "@printf(\"%s\\n%15s %20s\\n%s\\n\", \"=\"^43, \"Method\", \"Serialized Size\", \"=\"^43)\n",
     "@printf(\"%15s %20d\\n\", \"ProtoBuf\", proto_ser(t))\n",
     "@printf(\"%15s %20d\\n\", \"Julia\", julia_ser(t))\n",
-    "@printf(\"%15s %20d\\n\", \"JSON\", json_ser(t))"
+    "@printf(\"%15s %20d\\n\", \"JSON\", json_ser(t))\n",
+    "@printf(\"%15s %20d\\n\", \"JLD\", jld_ser(t))"
    ]
   },
   {
@@ -581,62 +633,6 @@
    },
    "source": [
     "# Thank You"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": true,
-    "slideshow": {
-     "slide_type": "slide"
-    }
-   },
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "metadata": {
-    "collapsed": false,
-    "slideshow": {
-     "slide_type": "slide"
-    }
-   },
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "=================================\n",
-      "Field Type           Julia Type\n",
-      "=================================\n",
-      "      enum                Int32\n",
-      "    uint64               Uint64\n",
-      "   fixed64               Uint64\n",
-      "    sint32                Int32\n",
-      "       obj                  Any\n",
-      "    string               String\n",
-      "    sint64                Int64\n",
-      "     int64                Int64\n",
-      "  sfixed64                Int64\n",
-      "  sfixed32                Int32\n",
-      "      bool                 Bool\n",
-      "    uint32               Uint32\n",
-      "   fixed32               Uint32\n",
-      "     bytes       Array{Uint8,1}\n",
-      "     int32                Int32\n",
-      "    double              Float64\n",
-      "     float              Float32\n"
-     ]
-    }
-   ],
-   "source": [
-    "@printf(\"%s\\n%10s %20s\\n%s\\n\", \"=\"^33, \"Field Type\", \"Julia Type\", \"=\"^33)\n",
-    "for (k,v) in ProtoBuf.WIRETYPES\n",
-    "    @printf(\"%10s %20s\\n\", k, v[4])\n",
-    "end"
    ]
   }
  ],
