@@ -1,0 +1,99 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Primes - OpenAPI 3.0",
+    "description": "This is a sample Prime Numbers Server based on the OpenAPI 3.0 specification.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Primes.jl",
+    "url": "https://juliamath.github.io/Primes.jl/stable/"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9999/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "generate",
+      "description": "Generate prime numbers"
+    }
+  ],
+  "paths": {
+    "/generate/range": {
+      "post": {
+        "tags": [
+          "generate"
+        ],
+        "summary": "Generate primes in given range",
+        "description": "Given upper and lower bounds, generate all primes number in the range",
+        "operationId": "generateInRange",
+        "requestBody": {
+          "description": "The range in which to generate primes",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimesInRangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimesInRange"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs supplied"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PrimesInRangeRequest": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "to": {
+            "type": "integer",
+            "format": "int64",
+            "example": 30
+          }
+        }
+      },
+      "PrimesInRange": {
+        "type": "object",
+        "properties": {
+          "primes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64",
+              "example": 11
+            }
+          }
+        }
+      }
+    }
+  }
+}

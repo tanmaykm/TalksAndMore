@@ -1,5 +1,8 @@
 # Talks and More
 
+- 2024
+    - [OpenAPI for Easy HTTP APIs - JuliaCon 2024](2024/JuliaCon/OpenAPI)
+    - [Policy Enforcement in Julia Enterprise Applications with OPA - JuliaCon 2024](2024/JuliaCon/OpenPolicyAgent)
 - 2023
     - [Using OpenAPI in Julia](2023/OpenAPI)
 - 2022
