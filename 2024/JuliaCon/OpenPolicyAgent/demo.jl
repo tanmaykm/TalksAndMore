@@ -141,7 +141,7 @@ is_allowed(Dict(
 )
 
 
-# find list of auditors who are allowed access outside business hours
+# find list of users who are allowed access outside business hours
 is_allowed(Dict(
         "hourofday" => 1,
         "dayofweek" => 2,
